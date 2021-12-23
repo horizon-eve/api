@@ -1,0 +1,28 @@
+{
+  "name": "horizon-api",
+  "version": "1.0.0",
+  "description": "Horizon API service",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/horizon-eve/api.git"
+  },
+  "keywords": [
+    "restormjs",
+    "eveonline",
+    "esi",
+    "api"
+  ],
+  "author": "Oleksandr Minaiev",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/horizon-eve/api/issues"
+  },
+  "homepage": "https://github.com/horizon-eve/api#readme",
+  "dependencies": {
+    "restormjs": "0.0.14"
+  }
+}

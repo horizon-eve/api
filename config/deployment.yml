@@ -1,0 +1,84 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: horizon-api
+  labels:
+    app: horizon-api
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: horizon-api
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 5
+  template:
+    metadata:
+      labels:
+        app: horizon-api
+    spec:
+      containers:
+        - name: horizon-api
+          image: <IMAGE>
+          env:
+            - name: CONFIG_OVERRIDE
+              valueFrom:
+                secretKeyRef:
+                  name: horizon-api-secrets
+                  key: config-override
+            - name: PGHOST
+              value: postgres-service
+            - name: APIDATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secrets
+                  key: postgres-db
+            - name: APIPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secrets
+                  key: api-password
+            - name: APISUPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secrets
+                  key: apisu-password
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - mountPath: /var/apispec/data
+              name: apispec-volume
+              readOnly: true
+            - mountPath: /var/horizon-api
+              name: config-volume
+              readOnly: true
+          resources:
+            requests:
+              cpu: 100m
+            limits:
+              cpu: 100m
+      volumes:
+        - name: apispec-volume
+          persistentVolumeClaim:
+            claimName: apispec-pv-claim
+        - name: config-volume
+          secret:
+            secretName: horizon-api-secrets
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: horizon-api-service
+spec:
+  type: ClusterIP
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 3002
+  selector:
+    app: horizon-api
