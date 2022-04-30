@@ -67,10 +67,6 @@ spec:
         - name: config-volume
           secret:
             secretName: horizon-api-secrets
-            items:
-              - key: config-override
-                path: config-override.json
-
 ---
 apiVersion: v1
 kind: Service
