@@ -24,11 +24,6 @@ spec:
         - name: horizon-api
           image: <IMAGE>
           env:
-            - name: CONFIG_OVERRIDE
-              valueFrom:
-                secretKeyRef:
-                  name: horizon-api-secrets
-                  key: config-override
             - name: PGHOST
               value: postgres-service
             - name: APIDATABASE
@@ -67,6 +62,10 @@ spec:
         - name: config-volume
           secret:
             secretName: horizon-api-secrets
+            items:
+              - key: config-override
+                path: config-override.json
+
 ---
 apiVersion: v1
 kind: Service
