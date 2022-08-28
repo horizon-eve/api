@@ -17,4 +17,4 @@ COPY . .
 
 EXPOSE 3002
 
-CMD [ "node", "node_modules/restormjs/bin/www.js", "--config=/var/horizon-api/config-override.json" ]
+CMD [ "node", "node_modules/restormjs/bin/restormjs-server.js", "--config=/var/horizon-api/config-override.json" ]
