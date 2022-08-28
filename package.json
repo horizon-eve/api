@@ -23,6 +23,6 @@
   },
   "homepage": "https://github.com/horizon-eve/api#readme",
   "dependencies": {
-    "restormjs": "0.0.14"
+    "restormjs": "^0.0.17"
   }
 }
